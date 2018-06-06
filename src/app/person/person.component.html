@@ -1,13 +1,41 @@
-<p>
-  person works!
-</p>
 
-<ul>
-  <li *ngFor="let person of persons"> {{person.name}}</li>
+<div class="container col-md-12">
+  <input type="text" (keyup.enter)="createPersons(name)" #name class="form-control">
+</div>
+<div class="container">
+  
+  <div class="card mx-auto mt-5">
+    <div class="card-header text-center">
+    <span class="badge badge-success" style="font-size: 18px">
+      List of All Persons
+      </span>
+    </div>
+    <div class="card-body">
 
-  <li *ngFor="let person of persons"> {{person.address}}</li>
-
-  <li *ngFor="let person of persons"> {{person.email}}</li>
-
-  <li *ngFor="let person of persons"> {{person.phone}}</li>
-</ul>
+      <table class="table table-hover table-bordered text-center">
+        <thead class="thead-default">
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of persons">
+            <td>{{p.id}}</td>
+            <td>{{p.name}}</td>
+            <td>{{p.address}}</td>
+            <td>{{p.email}}</td>
+            <td>{{p.phone}}</td>
+            <td>{{p.active}}</td>
+            <td>
+              <button class="btn btn-primary" (click)="editPerson(p)">Edit</button>
+              <button class="btn btn-warning" (click)="deletePerson(p)">Delete</button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

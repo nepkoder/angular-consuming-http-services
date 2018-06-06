@@ -1,28 +1,32 @@
+import { PersonService } from './../services/person.service';
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http';
 
 @Component({
   selector: 'app-person',
   templateUrl: './person.component.html',
   styleUrls: ['./person.component.css']
 })
-export class PersonComponent  {
+export class PersonComponent implements OnInit  {
 
   persons: any[];
 
   private url = 'http://localhost:8080/api/persons';
 
-  constructor(private http: Http) {
-    http.get(this.url).subscribe(response => {
+  constructor(private service: PersonService) {
+   }
+
+   ngOnInit() {
+    this.service.getPersons().subscribe(response => {
       this.persons = response.json();
     });
    }
+
 
   createPerson(input: HTMLInputElement) {
     const p = {name: input.value};
     input.value = '';
 
-    this.http.post(this.url, JSON.stringify(p)).subscribe(response => {
+    this.service.createPerson(p).subscribe(response => {
       p['id'] = response.json().id;
       this.persons.splice(0, 0, p);
       // console.log(response.json());
@@ -31,13 +35,13 @@ export class PersonComponent  {
 
 
   editPerson(p) {
-    this.http.patch(this.url, JSON.stringify({ isRead: true})).subscribe(response => {
+     this.service.editPerson(p).subscribe(response => {
       console.log(response.json());
     } );
   }
 
   deletePerson(p) {
-    this.http.delete(this.url + '/' + p.id).subscribe(response => {
+    this.service.deletePerson(p.id).subscribe(response => {
       // console.log(response.json());
       const pos = this.persons.indexOf(p);
       this.persons.splice(pos, 1);

@@ -30,9 +30,10 @@ export class PersonComponent implements OnInit  {
       p['id'] = response.json().id;
       this.persons.splice(0, 0, p);
       // console.log(response.json());
+    }, error => {
+      alert('An unexpected Error !!');
     });
   }
-
 
   editPerson(p) {
      this.service.editPerson(p).subscribe(response => {
